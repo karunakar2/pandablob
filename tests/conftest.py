@@ -55,10 +55,12 @@ def dataframe_upload():
 
         if file_extension in [".csv", ".txt"]:
             arguments = {"index_col": 0, "delimiter": ",", "float_precision": "high"}
-            arguments.update({key: value for key, value in additional_kwargs.items()})
-            if not stream:
-                return pd.read_table(file, **arguments)
-            return pd.read_table(io.StringIO(file), **arguments)
+            arguments.update(dict(additional_kwargs.items()))
+            return (
+                pd.read_table(io.StringIO(file), **arguments)
+                if stream
+                else pd.read_table(file, **arguments)
+            )
         elif file_extension in [".xls", ".xlsx"]:
             if file_extension == ".xls" and not stream:
                 return pd.read_excel(
