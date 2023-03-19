@@ -27,18 +27,18 @@ def test_download(file, test_files, mock_download):
     if extension == ".csv":
         compare_df = pd.read_csv(file_location)
         assert df.equals(compare_df)
-    if extension == ".txt":
-        compare_df = pd.read_table(file_location)
-        assert df.equals(compare_df)
-    if extension == ".json":
+    elif extension == ".json":
         compare_df = pd.read_json(file_location)
         assert df.equals(compare_df)
-    if extension == ".xls":
+    elif extension == ".parquet":
+        compare_df = pd.read_parquet(file_location, engine="pyarrow")
+        assert df.equals(compare_df)
+    elif extension == ".txt":
+        compare_df = pd.read_table(file_location)
+        assert df.equals(compare_df)
+    elif extension == ".xls":
         compare_df = pd.read_excel(file_location, engine="xlrd")
         assert df.equals(compare_df)
-    if extension == ".xlsx":
+    elif extension == ".xlsx":
         compare_df = pd.read_excel(file_location, engine="openpyxl")
-        assert df.equals(compare_df)
-    if extension == ".parquet":
-        compare_df = pd.read_parquet(file_location, engine="pyarrow")
         assert df.equals(compare_df)

@@ -24,7 +24,7 @@ def test_download_kwargs(mock_download, test_files, pandas_arguments_download, f
     df = pandablob.blob_to_df(MockAzureBlob, pandas_arguments_download[file])
 
     # download blob and return DataFrame
-    if extension == ".csv" or extension == ".txt":
+    if extension in [".csv", ".txt"]:
         compare_df = pd.read_table(file_location, delimiter=",", index_col=0)
         assert df.equals(compare_df)
     elif extension == ".json":
